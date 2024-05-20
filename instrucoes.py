@@ -9,11 +9,11 @@ def exibir_instrucoes():
     pygame.display.set_caption("Instruções")
 
     # Carregue a imagem de fundo da tela de instruções
-    background = pygame.image.load('Inicial/Primeira.png')
+    background = pygame.image.load('Imagens/Ins.png')
     background = pygame.transform.smoothscale(background, screen.get_size())
 
     # Titulo
-    arcade_gamer_font = pygame.font.Font('arcade_gamer.ttf', 51)
+    arcade_gamer_font = pygame.font.Font('Fontes/arcade_gamer.ttf', 40)
     cor_texto = "#DF4B40"
     titulo_renderizado = arcade_gamer_font.render("Instruções", True, cor_texto)
     texto_renderizado = arcade_gamer_font.render("",True, cor_texto)
@@ -25,15 +25,14 @@ def exibir_instrucoes():
     texto_rect.y = 40  # Definindo a posição vertical
 
     # Texto
-    nine_font = pygame.font.Font('nine.ttf', 50)
+    nine_font = pygame.font.Font('Fontes/nine.ttf', 50)
     cor_texto = "#41A8AD"
     
     # Texto em parágrafos
     paragrafos = [
-        "Uno é um jogo de cartas simples e divertido jogado por 2 ou mais jogadores.","O objetivo é se livrar de todas as suas cartas primeiro.",
-        "Cada jogador recebe 7 cartas e, em cada turno, eles jogam uma carta que", "combine com a carta no topo do monte por cor, número ou ação.",
-        "As cartas de ação têm efeitos especiais, como inverter a direção do jogo, pular o", "próximo jogador ou fazer com que o próximo jogador compre cartas extras.",
-        "O jogo continua até que alguém fique sem cartas, e esse jogador vence a rodada."
+        "Bem-vindo ao jogo da memória!",
+        "O objetivo é encontrar pares de cartas","idênticas no tabuleiro","virando duas cartas por vez.",
+        "Quem encontrar mais pares vence.","Prepare sua memória e divirta-se!"
     ]
     
     # Renderizando cada parágrafo separadamente
@@ -42,13 +41,13 @@ def exibir_instrucoes():
         texto = nine_font.render(paragrafo, True, cor_texto)
         texto_rect = texto.get_rect()
         texto_rect.centerx = screen.get_rect().centerx
-        texto_rect.y = 300 + i * 50 # Definindo a posição vertical para cada parágrafo
+        texto_rect.y = 250 + i * 70 # Definindo a posição vertical para cada parágrafo
         paragrafo_renderizado.append((texto, texto_rect))
 
 
-    imagem = pygame.image.load('Inicial/botaoIns.png')
+    imagem = pygame.image.load('Imagens/botaoIns.png')
     imagem_rect = imagem.get_rect()
-    imagem_rect.topleft = (1500,800)
+    imagem_rect.topleft = (1100,100)
 
     
         
@@ -62,7 +61,7 @@ def exibir_instrucoes():
         # Blit da imagem de fundo e do texto na tela
         screen.blit(background, (0, 0))
         screen.blit(texto_renderizado, texto_rect)
-        screen.blit(titulo_renderizado, (718,150))
+        screen.blit(titulo_renderizado, (455,150))
         screen.blit(imagem, imagem_rect.topleft)
         
         # Renderizando e desenhando cada parágrafo na tela
