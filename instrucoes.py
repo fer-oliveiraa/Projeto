@@ -1,56 +1,59 @@
 import pygame
 import sys
 
-
-
 def exibir_instrucoes():
     pygame.init()
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     pygame.display.set_caption("Instruções")
 
-    # Carregue a imagem de fundo da tela de instruções
+    # Carregar a imagem de fundo da tela de instruções
     background = pygame.image.load('Imagens/Ins.png')
     background = pygame.transform.smoothscale(background, screen.get_size())
 
-    # Titulo
-    arcade_gamer_font = pygame.font.Font('Fontes/arcade_gamer.ttf', 40)
-    cor_texto = "#DF4B40"
-    titulo_renderizado = arcade_gamer_font.render("Instruções", True, cor_texto)
-    texto_renderizado = arcade_gamer_font.render("",True, cor_texto)
-    
-    # Obtendo o retângulo envolvente do texto do título
-    texto_rect = texto_renderizado.get_rect()
-    # Ajustando a posição do retângulo para o centro da tela
-    texto_rect.centerx = screen.get_rect().centerx
-    texto_rect.y = 40  # Definindo a posição vertical
+    # Ajustar tamanho da fonte proporcionalmente à altura da tela
+    tamanho_titulo_fonte = int(screen.get_height() * 0.08)  # Ajuste o valor conforme necessário
+    tamanho_texto_fonte = int(screen.get_height() * 0.05)   # Ajuste o valor conforme necessário
 
-    # Texto
-    nine_font = pygame.font.Font('Fontes/nine.ttf', 50)
+    # Fonte e cor do título
+    arcade_gamer_font = pygame.font.Font('Fontes/arcade_gamer.ttf', tamanho_titulo_fonte)
+    cor_texto_titulo = "#DF4B40"
+    titulo_renderizado = arcade_gamer_font.render("Intruções", True, cor_texto_titulo)
+
+    # Fonte e cor do texto
+    nine_font = pygame.font.Font('Fontes/nine.ttf', tamanho_texto_fonte)
     cor_texto = "#41A8AD"
-    
-    # Texto em parágrafos
-    paragrafos = [
-        "Bem-vindo ao jogo da memória!",
-        "O objetivo é encontrar pares de cartas","idênticas no tabuleiro","virando duas cartas por vez.",
-        "Quem encontrar mais pares vence.","Prepare sua memória e divirta-se!"
-    ]
-    
-    # Renderizando cada parágrafo separadamente
-    paragrafo_renderizado = []
-    for i, paragrafo in enumerate(paragrafos):
-        texto = nine_font.render(paragrafo, True, cor_texto)
-        texto_rect = texto.get_rect()
-        texto_rect.centerx = screen.get_rect().centerx
-        texto_rect.y = 250 + i * 70 # Definindo a posição vertical para cada parágrafo
-        paragrafo_renderizado.append((texto, texto_rect))
 
+    # Texto de instruções com quebras de linha
+    texto_instrucoes = (
+        "Bem-vindo ao jogo da memória! O objetivo é encontrar pares de cartas\n"
+        "idênticas no tabuleiro, virando duas cartas por vez. Quem encontrar\n"
+        "mais pares vence. Prepare sua memória e divirta-se!"
+    )
 
+    # Renderizar o título centralizado
+    titulo_rect = titulo_renderizado.get_rect(center=(screen.get_width() // 2, int(screen.get_height() * 0.1)))
+
+    # Função para renderizar o texto com quebras de linha alinhado à esquerda e centralizado horizontalmente
+    def renderizar_texto_multilinha(texto, fonte, cor, superficie, pos_inicial_y):
+        linhas = texto.split('\n')
+        y_offset = pos_inicial_y
+        renderizacoes = []
+        for linha in linhas:
+            renderizado = fonte.render(linha, True, cor)
+            rect = renderizado.get_rect(left=50, top=y_offset)  # Alinhar à esquerda com margem de 50 pixels
+            renderizacoes.append((renderizado, rect))
+            y_offset += rect.height + 10  # Adiciona um pequeno espaçamento entre linhas
+        return renderizacoes
+
+    # Renderizar o texto de instruções com quebras de linha alinhado à esquerda
+    texto_renderizado = renderizar_texto_multilinha(texto_instrucoes, nine_font, cor_texto, screen, int(screen.get_height() * 0.4))
+
+    # Carregar e redimensionar a imagem do botão
     imagem = pygame.image.load('Imagens/botaoIns.png')
-    imagem_rect = imagem.get_rect()
-    imagem_rect.topleft = (1100,100)
-
-    
-        
+    largura_botao = int(screen.get_width() * 0.15)
+    altura_botao = int(screen.get_height() * 0.1)
+    imagem = pygame.transform.scale(imagem, (largura_botao, altura_botao))
+    imagem_rect = imagem.get_rect(center=(int(screen.get_width() * 0.85), int(screen.get_height() * 0.15)))
 
     while True:
         for event in pygame.event.get():
@@ -60,13 +63,12 @@ def exibir_instrucoes():
 
         # Blit da imagem de fundo e do texto na tela
         screen.blit(background, (0, 0))
-        screen.blit(texto_renderizado, texto_rect)
-        screen.blit(titulo_renderizado, (455,150))
+        screen.blit(titulo_renderizado, titulo_rect)
         screen.blit(imagem, imagem_rect.topleft)
-        
-        # Renderizando e desenhando cada parágrafo na tela
-        for texto, texto_rect in paragrafo_renderizado:
-            screen.blit(texto, texto_rect)
+
+        # Renderizando e desenhando cada linha do texto na tela
+        for linha, rect in texto_renderizado:
+            screen.blit(linha, rect)
             
         pygame.display.flip()
 
