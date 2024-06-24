@@ -44,8 +44,8 @@ screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 background, texto_renderizado, texto_renderizado1, imagem, imagem_rect, texto_rect, texto_rect1 = ajustar_elementos(screen)
 
 # Carregar e reproduzir música de fundo
-#pygame.mixer.music.load('Audio/audio.mp3')
-#pygame.mixer.music.play(-1)
+pygame.mixer.music.load('Audio/audio.mp3')
+pygame.mixer.music.play(-1)
 
 # Função para exibir instruções
 def abrir_instrucoes():
