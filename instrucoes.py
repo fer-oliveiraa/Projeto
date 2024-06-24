@@ -1,5 +1,6 @@
 import pygame
 import sys
+from novojogador import exibir_novojogador 
 
 def exibir_instrucoes():
     pygame.init()
@@ -17,7 +18,7 @@ def exibir_instrucoes():
     # Fonte e cor do título
     arcade_gamer_font = pygame.font.Font('Fontes/arcade_gamer.ttf', tamanho_titulo_fonte)
     cor_texto_titulo = "#DF4B40"
-    titulo_renderizado = arcade_gamer_font.render("Intruções", True, cor_texto_titulo)
+    titulo_renderizado = arcade_gamer_font.render("Instruções", True, cor_texto_titulo)
 
     # Fonte e cor do texto
     nine_font = pygame.font.Font('Fontes/nine.ttf', tamanho_texto_fonte)
@@ -51,7 +52,7 @@ def exibir_instrucoes():
     # Carregar e redimensionar a imagem do botão
     imagem = pygame.image.load('Imagens/botaoIns.png')
     largura_botao = int(screen.get_width() * 0.15)
-    altura_botao = int(screen.get_height() * 0.1)
+    altura_botao = int(screen.get_height() * 0.2)
     imagem = pygame.transform.scale(imagem, (largura_botao, altura_botao))
     imagem_rect = imagem.get_rect(center=(int(screen.get_width() * 0.85), int(screen.get_height() * 0.15)))
 
@@ -60,6 +61,10 @@ def exibir_instrucoes():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Verifica se o clique foi no botão
+                if imagem_rect.collidepoint(event.pos):
+                    exibir_novojogador()
 
         # Blit da imagem de fundo e do texto na tela
         screen.blit(background, (0, 0))
