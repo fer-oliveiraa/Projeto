@@ -27,8 +27,8 @@ def exibir_instrucoes():
     # Texto de instruções com quebras de linha
     texto_instrucoes = (
         "Bem-vindo ao jogo da memória! O objetivo é encontrar pares de cartas\n"
-        "idênticas no tabuleiro, virando duas cartas por vez. Quem encontrar\n"
-        "mais pares vence. Prepare sua memória e divirta-se!"
+        "idênticas no tabuleiro, virando duas cartas por vez.\n"
+        "Prepare sua memória e divirta-se!"
     )
 
     # Renderizar o título centralizado
