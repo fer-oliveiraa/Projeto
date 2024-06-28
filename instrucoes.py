@@ -64,7 +64,7 @@ def exibir_instrucoes():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # Verifica se o clique foi no botão
                 if imagem_rect.collidepoint(event.pos):
-                    exibir_novojogador()
+                    exibir_novojogador(screen)  # Passar a tela screen como argumento
 
         # Blit da imagem de fundo e do texto na tela
         screen.blit(background, (0, 0))
