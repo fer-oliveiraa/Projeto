@@ -17,7 +17,7 @@ def exibir_tema(screen, nome_jogador):
     cor_fonte_superior = "#DF4B40"
 
     # Texto centralizado na parte superior
-    texto_superior = (f"JOGADOR(A){nome_jogador.upper()}ESCOLHA QUAL",
+    texto_superior = (f"JOGADOR(A) {nome_jogador.upper()} ESCOLHA QUAL ",
                       "TEMA MAIS CHAMA SUA ATENÇÃO",
                       "E SE PREPARE PARA INICIAR O JOGO")
 

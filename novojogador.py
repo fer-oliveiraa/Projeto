@@ -12,7 +12,6 @@ def render_multiline(text, font, color):
     return surfaces
 
 def ajustar_elementos(screen):
-    # Dimensões da tela
     largura_tela, altura_tela = screen.get_size()
 
     # Ajuste da fonte
@@ -23,17 +22,20 @@ def ajustar_elementos(screen):
 
     # Carregar e ajustar imagens
     background = carregar_imagem('Imagens/NovoJogador.png', largura_tela, altura_tela)
-    imagem_personagem1 = carregar_imagem('Imagens/personagem1.png', 350, 350)
-    imagem_personagem2 = carregar_imagem('Imagens/personagem2.png', 350, 350)
+    tamanho_personagem = int(largura_tela * 0.18)  # Tamanho relativo ao tamanho da tela
+    imagem_personagem1 = carregar_imagem('Imagens/personagem1.png', tamanho_personagem, tamanho_personagem)
+    imagem_personagem2 = carregar_imagem('Imagens/personagem2.png', tamanho_personagem, tamanho_personagem)
     imagem_ins = carregar_imagem('Imagens/botaoIns.png', int(largura_tela * 0.15), int(altura_tela * 0.2))
 
     # Posições dos elementos
-    pos_personagem1 = (largura_tela // 2 - imagem_personagem1.get_width() // 2, altura_tela // 2 + 40 - imagem_personagem1.get_height() // 2)
-    pos_personagem2 = (largura_tela // 2 - imagem_personagem2.get_width() // 2, altura_tela // 2 + 40 - imagem_personagem2.get_height() // 2)
+    pos_personagem1 = (int(largura_tela * 0.50) - imagem_personagem1.get_width() // 2, int(altura_tela * 0.5 + 40) - imagem_personagem1.get_height() // 2)
+    pos_personagem2 = (int(largura_tela * 0.50) - imagem_personagem2.get_width() // 2, int(altura_tela * 0.5 + 40) - imagem_personagem2.get_height() // 2)
     imagem_ins_rect = imagem_ins.get_rect(center=(int(largura_tela * 0.85), int(altura_tela * 0.15)))
-    caixa_input = pygame.Rect(largura_tela // 2 - 135, altura_tela // 3 + 418, 300, 50)
+    caixa_input = pygame.Rect(largura_tela // 2 - int(largura_tela * 0.07), int(altura_tela * 0.80), int(largura_tela * 0.3), int(altura_tela * 0.05))
 
     return {
+        'largura_tela': largura_tela,
+        'altura_tela': altura_tela,
         'background': background,
         'imagem_personagem1': imagem_personagem1,
         'imagem_personagem2': imagem_personagem2,
@@ -50,6 +52,8 @@ def exibir_novojogador(screen):
     pygame.display.set_caption("Novo Jogador")
 
     elementos = ajustar_elementos(screen)
+    largura_tela = elementos['largura_tela']
+    altura_tela = elementos['altura_tela']
     background = elementos['background']
     imagem_personagem1 = elementos['imagem_personagem1']
     imagem_personagem2 = elementos['imagem_personagem2']
@@ -61,17 +65,15 @@ def exibir_novojogador(screen):
     fonte = elementos['fonte']
     fonte_caixa = elementos['fonte_caixa']
 
-    # Definir as cores das fontes
     cor_fonte_superior = "#DF4B40"
 
-    # Texto centralizado na parte superior
     texto_superior = ("DIGITE O SEU NOME",
                       "E ESCOLHA SEU PERSONAGEM")
 
     texto_renderizado_superior = render_multiline('\n'.join(texto_superior), fonte, cor_fonte_superior)
 
     altura_texto = sum(line.get_height() for line in texto_renderizado_superior)
-    y_inicial = (screen.get_height() // 3 - 100) - (altura_texto // 3)
+    y_inicial = int(altura_tela * 0.15)
 
     cor_caixa = "#feffd5"
     cor_caixa_foco = "#feffd5"
