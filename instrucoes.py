@@ -8,7 +8,7 @@ def exibir_instrucoes():
     pygame.display.set_caption("Instruções")
 
     # Carregar a imagem de fundo da tela de instruções
-    background = pygame.image.load('Imagens/Ins.png')
+    background = pygame.image.load('Imagens/Instrucoes.png')
     background = pygame.transform.smoothscale(background, screen.get_size())
 
     # Ajustar tamanho da fonte proporcionalmente à altura da tela
@@ -50,7 +50,7 @@ def exibir_instrucoes():
     texto_renderizado = renderizar_texto_multilinha(texto_instrucoes, nine_font, cor_texto, screen, int(screen.get_height() * 0.4))
 
     # Carregar e redimensionar a imagem do botão
-    imagem = pygame.image.load('Imagens/botaoIns.png')
+    imagem = pygame.image.load('Imagens/BotaoSeta.png')
     largura_botao = int(screen.get_width() * 0.15)
     altura_botao = int(screen.get_height() * 0.2)
     imagem = pygame.transform.scale(imagem, (largura_botao, altura_botao))

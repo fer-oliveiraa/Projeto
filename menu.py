@@ -21,7 +21,7 @@ def ajustar_elementos(screen):
     global arcade_gamer_font
 
     # Carregar e redimensionar a imagem de fundo para ajustar ao tamanho da tela
-    background = pygame.image.load('Imagens/Jogo1.png')
+    background = pygame.image.load('Imagens/Menu.png')
     background = pygame.transform.smoothscale(background, screen.get_size())
 
     # Ajustar tamanho da fonte proporcionalmente à altura da tela
@@ -33,7 +33,7 @@ def ajustar_elementos(screen):
     texto_renderizado1, texto_rect1 = centralizar_texto("MEMÓRIA", arcade_gamer_font, cor_texto, screen, int(screen.get_height() * 0.5))
 
     # Carregar e redimensionar a imagem do botão
-    imagem = pygame.image.load('Imagens/botao.png')
+    imagem = pygame.image.load('Imagens/BotaoStart.png')
     imagem = pygame.transform.scale(imagem, (int(screen.get_width() * 0.1), int(screen.get_height() * 0.1)))
     imagem_rect = imagem.get_rect(center=(screen.get_width() / 2, int(screen.get_height() * 0.8)))
 
@@ -44,7 +44,7 @@ screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 background, texto_renderizado, texto_renderizado1, imagem, imagem_rect, texto_rect, texto_rect1 = ajustar_elementos(screen)
 
 # Carregar e reproduzir música de fundo
-pygame.mixer.music.load('Audio/audio.mp3')
+pygame.mixer.music.load('Audio/Audio1.mp3')
 pygame.mixer.music.play(-1)
 
 # Função para exibir instruções
