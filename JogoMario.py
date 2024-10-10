@@ -3,6 +3,7 @@ import sys
 import random
 import time
 import os
+from final import exibir_final
 
 def exibir_jogo_mario(screen):
     pygame.display.set_caption("Jogo da Memória do Mario")
@@ -17,11 +18,17 @@ def exibir_jogo_mario(screen):
             imagem = pygame.image.load(os.path.join(pasta_cartas, filename))
             imagens_cartas.append(imagem)
 
-    # Verificar se temos exatamente 8 imagens (pois serão duplicadas para 16 cartas)
-    if len(imagens_cartas) != 8:
-        print("Erro: Deve haver exatamente 8 imagens na pasta 'CartasMario'.")
+    
+    # Verificar se temos pelo menos 8 imagens
+    if len(imagens_cartas) < 8:
+        print("Erro: Deve haver pelo menos 8 imagens na pasta 'CartasMario'.")
         pygame.quit()
         sys.exit()
+
+# Selecionar aleatoriamente 8 imagens se houver mais do que 8 disponíveis
+    if len(imagens_cartas) > 8:
+        imagens_cartas = random.sample(imagens_cartas, 8)
+
 
     # Carregar a imagem das costas das cartas
     costas_carta = pygame.image.load('CartasMario/costacartas.png')
@@ -101,6 +108,13 @@ def exibir_jogo_mario(screen):
 
         desenhar_tabuleiro()
         pygame.display.flip()
+
+        # Espera para mostrar as cartas
+        esperar = True
+                                
+        if esperar:
+        # Aguarda um segundo se as cartas não formarem um par
+            pygame.time.wait(00)  # Altere o tempo conforme necessário
 
         # Verificar se o jogador ganhou
         if len(cartas_acertadas) == len(cartas):
