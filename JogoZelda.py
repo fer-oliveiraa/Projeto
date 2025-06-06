@@ -4,70 +4,46 @@ import random
 import time
 import os
 
-def exibir_jogo_mario(screen):
-    pygame.display.set_caption("Jogo da Memória do Mario")
-    exibir_jogo_memoria(screen, 'CartasMario')
-
 def exibir_jogo_zelda(screen):
     pygame.display.set_caption("Jogo da Memória de Zelda")
-    exibir_jogo_memoria(screen, 'CartasZelda')
 
-def exibir_jogo_memoria(screen, pasta_cartas_tema):
-    # Caminho para a pasta das cartas relativo ao diretório do script
-    pasta_cartas = os.path.join(os.path.dirname(__file__), pasta_cartas_tema)
+    pasta_cartas = os.path.join(os.path.dirname(__file__), 'CartasZelda')
 
-    # Carregar todas as imagens da pasta das cartas
     imagens_cartas = []
     for filename in os.listdir(pasta_cartas):
-        if filename.endswith('.png'):  # Verificar se o arquivo é uma imagem PNG
+        if filename.endswith('.png') and filename != 'costacartas.png':
             imagem = pygame.image.load(os.path.join(pasta_cartas, filename))
             imagens_cartas.append(imagem)
 
-    # Verificar se temos exatamente 8 imagens (pois serão duplicadas para 16 cartas)
-    if len(imagens_cartas) != 8:
-        print(f"Erro: Deve haver exatamente 8 imagens na pasta '{pasta_cartas_tema}'.")
+    if len(imagens_cartas) < 6:
+        print("Erro: Deve haver pelo menos 6 imagens na pasta 'CartasZelda'.")
         pygame.quit()
         sys.exit()
 
-    # Carregar a imagem das costas das cartas
+    imagens_cartas = random.sample(imagens_cartas, 6)
     costas_carta = pygame.image.load(os.path.join(pasta_cartas, 'costacartas.png'))
-
-    # Carregar a imagem de fundo
     imagem_fundo = pygame.image.load('Imagens/JogoMPZ.png')
     imagem_fundo = pygame.transform.smoothscale(imagem_fundo, screen.get_size())
 
-    # Associar cada imagem a um identificador
-    cartas_com_ids = list(enumerate(imagens_cartas))  # [(0, carta0), (1, carta1), ..., (7, carta7)]
-
-    # Escolher aleatoriamente 4 cartas das 8 disponíveis
-    cartas_escolhidas = random.sample(cartas_com_ids, 4)
-
-    # Duplicar e embaralhar as cartas escolhidas
-    cartas = cartas_escolhidas * 2
+    cartas_com_ids = list(enumerate(imagens_cartas))
+    cartas = cartas_com_ids * 2
     random.shuffle(cartas)
 
-    # Configurar o tamanho das cartas e do tabuleiro
-    linhas, colunas = 2, 4  # Ajustado para um total de 8 cartas (2 linhas x 4 colunas)
+    linhas, colunas = 3, 4
     largura_tela, altura_tela = screen.get_size()
-
-    # Definir largura fixa das cartas
-    largura_carta_fixa = 250  # Ajuste esse valor conforme necessário
+    largura_carta_fixa = 200
     altura_carta_fixa = int(largura_carta_fixa * costas_carta.get_height() / costas_carta.get_width())
 
-    # Redimensionar as imagens das cartas e das costas das cartas
     cartas = [(id_carta, pygame.transform.smoothscale(carta, (largura_carta_fixa, altura_carta_fixa))) for id_carta, carta in cartas]
     costas_carta = pygame.transform.smoothscale(costas_carta, (largura_carta_fixa, altura_carta_fixa))
 
-    # Espaçamento entre as cartas
     espaco_x = (largura_tela - (colunas * largura_carta_fixa)) // (colunas + 1)
     espaco_y = (altura_tela - (linhas * altura_carta_fixa)) // (linhas + 1)
 
-    # Inicializar variáveis do jogo
     cartas_viradas = []
     cartas_acertadas = []
     start_time = time.time()
 
-    # Função para desenhar o tabuleiro
     def desenhar_tabuleiro():
         screen.blit(imagem_fundo, (0, 0))
         for i in range(linhas):
@@ -76,11 +52,10 @@ def exibir_jogo_memoria(screen, pasta_cartas_tema):
                 x = espaco_x + j * (largura_carta_fixa + espaco_x)
                 y = espaco_y + i * (altura_carta_fixa + espaco_y)
                 if index in cartas_acertadas or index in cartas_viradas:
-                    screen.blit(cartas[index][1], (x, y))  # Exibe a carta
+                    screen.blit(cartas[index][1], (x, y))
                 else:
-                    screen.blit(costas_carta, (x, y))  # Exibe o verso da carta
+                    screen.blit(costas_carta, (x, y))
 
-    # Loop principal do jogo
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -93,33 +68,22 @@ def exibir_jogo_memoria(screen, pasta_cartas_tema):
                         index = i * colunas + j
                         cx = espaco_x + j * (largura_carta_fixa + espaco_x)
                         cy = espaco_y + i * (altura_carta_fixa + espaco_y)
-                        if cx <= x <= cx + largura_carta_fixa and cy <= y <= cy + altura_carta_fixa:
+                        if cx <= x < cx + largura_carta_fixa and cy <= y < cy + altura_carta_fixa:
                             if index not in cartas_viradas and index not in cartas_acertadas:
                                 cartas_viradas.append(index)
                                 if len(cartas_viradas) == 2:
                                     desenhar_tabuleiro()
                                     pygame.display.flip()
-                                    pygame.time.wait(1000)  # Aguarda um segundo para o jogador ver as cartas
-                                    # Comparar os IDs das cartas para verificar se formam um par
+                                    pygame.time.wait(1000)
                                     if cartas[cartas_viradas[0]][0] == cartas[cartas_viradas[1]][0]:
-                                        cartas_acertadas.extend(cartas_viradas)  # Mantém as cartas viradas
+                                        cartas_acertadas.extend(cartas_viradas)
                                     cartas_viradas = []
 
         desenhar_tabuleiro()
         pygame.display.flip()
 
-        # Verificar se o jogador ganhou
         if len(cartas_acertadas) == len(cartas):
             elapsed_time = time.time() - start_time
-            print(f"Você ganhou! Tempo total: {elapsed_time:.2f} segundos")
+            print(f"Você venceu! Tempo total: {elapsed_time:.2f} segundos")
             pygame.quit()
             sys.exit()
-
-# Inicializar o jogo
-if __name__ == '__main__':
-    pygame.init()
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    
-    # Chame o jogo desejado: Mario ou Zelda
-    # exibir_jogo_mario(screen)
-    exibir_jogo_zelda(screen)  # Ou troque para exibir_jogo_mario(screen)
