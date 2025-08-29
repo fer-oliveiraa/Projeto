@@ -22,7 +22,7 @@ def exibir_jogo_zelda(screen):
 
     imagens_cartas = random.sample(imagens_cartas, 6)
     costas_carta = pygame.image.load(os.path.join(pasta_cartas, 'costacartas.png'))
-    imagem_fundo = pygame.image.load('Imagens/JogoMPZ.png')
+    imagem_fundo = pygame.image.load('Imagens/fundoT.png')
     imagem_fundo = pygame.transform.smoothscale(imagem_fundo, screen.get_size())
 
     cartas_com_ids = list(enumerate(imagens_cartas))
@@ -87,3 +87,7 @@ def exibir_jogo_zelda(screen):
             print(f"Você venceu! Tempo total: {elapsed_time:.2f} segundos")
             pygame.quit()
             sys.exit()
+if __name__ == '__main__':
+    pygame.init()
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    exibir_jogo_zelda(screen) 

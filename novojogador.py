@@ -17,6 +17,8 @@ def render_multiline(text, font, color):
 def ajustar_elementos(screen):
     largura_tela, altura_tela = screen.get_size()
 
+    background = carregar_imagem('Imagens/tema_novojogador.png', largura_tela, altura_tela)
+
     # Ajuste da fonte
     tamanho_fonte = int(altura_tela * 0.04)
     caminho_fonte = 'Fontes/arcade_gamer.ttf'
@@ -24,7 +26,7 @@ def ajustar_elementos(screen):
     fonte_caixa = pygame.font.Font(caminho_fonte, int(tamanho_fonte * 0.4))
 
     # Carregar e ajustar imagens
-    background = carregar_imagem('Imagens/NovoJogador.png', largura_tela, altura_tela)
+    #background = carregar_imagem('Imagens/NovoJogador.png', largura_tela, altura_tela)
     tamanho_personagem = int(largura_tela * 0.18)  # Tamanho relativo ao tamanho da tela
     imagem_personagem1 = carregar_imagem('Imagens/personagem1.png', tamanho_personagem, tamanho_personagem)
     imagem_personagem2 = carregar_imagem('Imagens/personagem2.png', tamanho_personagem, tamanho_personagem)

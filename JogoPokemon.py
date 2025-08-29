@@ -11,7 +11,7 @@ def exibir_jogo_pokemon(screen):
     pasta_cartas = os.path.join(os.path.dirname(__file__), 'CartasPokemon')
 
     # Carregar a imagem de fundo
-    background = pygame.image.load('Imagens/JogoMPZ.png')
+    background = pygame.image.load('Imagens/fundoT.png')
     background = pygame.transform.smoothscale(background, screen.get_size())
 
     # Carregar todas as cartas (exceto a costa)

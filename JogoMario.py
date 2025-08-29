@@ -22,7 +22,7 @@ def exibir_jogo_mario(screen):
 
     imagens_cartas = random.sample(imagens_cartas, 6)
     costas_carta = pygame.image.load('CartasMario/costacartas.png')
-    imagem_fundo = pygame.image.load('Imagens/JogoMPZ.png')
+    imagem_fundo = pygame.image.load('Imagens/fundoT.png')
     imagem_fundo = pygame.transform.smoothscale(imagem_fundo, screen.get_size())
 
     cartas_com_ids = list(enumerate(imagens_cartas))

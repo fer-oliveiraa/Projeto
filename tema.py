@@ -8,7 +8,7 @@ def exibir_tema(screen, nome_jogador):
     pygame.display.set_caption("Tema")
 
     # Carregar a imagem de fundo da tela "tema"
-    background = pygame.image.load('Imagens/Tema.png')
+    background = pygame.image.load('Imagens/tema_tema.png')
     background = pygame.transform.smoothscale(background, screen.get_size())
 
     # Ajustar tamanho da fonte proporcionalmente à altura da tela
