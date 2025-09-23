@@ -3,6 +3,7 @@ import sys
 import random
 import time
 import os
+from bot_memoria import BotMemoria
 
 def exibir_jogo_mario(screen):
     pygame.display.set_caption("Jogo da Memória Mario")

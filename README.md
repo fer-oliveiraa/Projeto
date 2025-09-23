@@ -1,29 +1,69 @@
-# Jogo da Memória com Pygame
+# Jogo da Memória - Temas Mario, Pokémon e Zelda
 
-## Descrição
-O Jogo da Memória com Pygame é uma aplicação interativa onde o jogador testa sua memória ao combinar pares de cartas temáticas inspiradas nos universos de Zelda, Mario e Pokémon. O jogo inclui um menu com escolha de personagem e uma interface gráfica atraente.
+Este projeto é um jogo da memória desenvolvido em Python usando a biblioteca Pygame. O jogador pode escolher entre três temas clássicos dos videogames: Mario, Pokémon e Zelda. O objetivo é encontrar todos os pares de cartas no menor tempo possível.
 
 ## Funcionalidades
-- Interface gráfica utilizando Pygame
-- Menu com escolha de personagem
-- Diferentes temas: Zelda, Mario e Pokémon
 
-## Tecnologias Utilizadas
-- Python 3
-- Pygame
+- Tela inicial para digitar o nome do jogador e escolher o personagem
+- Seleção de tema: Mario, Pokémon ou Zelda
+- Jogo da memória com cartas personalizadas para cada tema
+- Interface responsiva, ajustando elementos conforme o tamanho da tela
+- Contagem de tempo para desafiar o jogador
 
-## Como Jogar
-1. Abra o jogo no seu ambiente Python.
-2. Após passar pelo menu inicial e instruções, escolha seu personagem e o tema desejado.
-3. Selecione o nível de dificuldade.
-4. Clique nas cartas para virá-las e encontrar os pares correspondentes.
-5. Para uma melhor experiência, recomenda-se jogar com fones de ouvido para aproveitar as músicas do jogo.
-6. Tente encontrar todos os pares no menor número de movimentos e tempo possível!
+## Como jogar
 
-## Capturas de Tela
-| Menu Inicial | 
-|-------------|
-| ![Jogo Memória](https://github.com/fer-oliveiraa/Projeto/assets/111644458/2fdeb907-7d68-4486-a9cc-b0af2930a5aa)|
+1. Execute o arquivo principal do projeto.
+2. Digite seu nome e escolha seu personagem.
+3. Selecione o tema desejado.
+4. Encontre todos os pares de cartas clicando nas cartas para virá-las.
+5. Tente terminar o jogo no menor tempo possível!
 
+## Requisitos
 
+- Python 3.x
+- Pygame (`pip install pygame`)
+- As pastas `Imagens`, `Fontes`, e as pastas de cartas de cada tema devem estar presentes no diretório do projeto.
 
+## Estrutura de Pastas
+
+```
+Projeto/
+├── Imagens/
+│   ├── BotaoMario.png
+│   ├── BotaoPokemon.png
+│   ├── BotaoZelda.png
+│   ├── tema_novoJ.png
+│   ├── fundoT.png
+│   └── ... (outras imagens)
+├── Fontes/
+│   └── arcade_gamer.ttf
+├── CartasMario/
+├── CartasPokemon/
+├── CartasZelda/
+├── JogoMario.py
+├── JogoPokemon.py
+├── JogoZelda.py
+├── tema.py
+├── novojogador.py
+└── README.md
+```
+
+## Como executar
+
+No terminal, navegue até a pasta do projeto e execute:
+
+```
+python novojogador.py
+```
+
+ou
+
+```
+python tema.py
+```
+
+## Créditos
+
+Desenvolvido por Fernanda para o TCC.
+
+Imagens e personagens são de propriedade de seus respectivos criadores (Nintendo, Game Freak, etc.) e são usadas apenas para fins educacionais.
