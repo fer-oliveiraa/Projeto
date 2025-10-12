@@ -5,40 +5,35 @@ import time
 import os
 from bot_memoria import BotMemoria
 
-def exibir_jogo_pokemon(screen):
-    pygame.display.set_caption("Jogo Pokémon")
+def exibir_jogo_zelda(screen, nome_jogador, avatar_path):
+    pygame.display.set_caption("Jogo da Memória de Zelda")
 
-    pasta_cartas = os.path.join(os.path.dirname(__file__), 'CartasPokemon')
+ 
+    pasta_cartas = os.path.join(os.path.dirname(__file__), 'CartasZelda')
 
-    # Altera a forma de carregar as imagens para manter o nome do arquivo
     imagens_cartas_com_nomes = []
     for filename in os.listdir(pasta_cartas):
-        if filename.endswith('.png') and 'costacartas' not in filename:
+        if filename.endswith('.png') and filename != 'costacartas.png':
             imagem = pygame.image.load(os.path.join(pasta_cartas, filename))
             imagens_cartas_com_nomes.append((filename, imagem))
 
     if len(imagens_cartas_com_nomes) < 6:
-        print("Erro: Deve haver pelo menos 6 imagens na pasta 'CartasPokemon' (sem contar 'costacartas.png').")
+        print("Erro: Deve haver pelo menos 6 imagens na pasta 'CartasZelda'.")
         pygame.quit()
         sys.exit()
 
-    # Seleciona 6 pares (nome do arquivo, imagem) aleatórios
     imagens_selecionadas = random.sample(imagens_cartas_com_nomes, 6)
-    
-    background = pygame.image.load('Imagens/fundoT.png')
-    background = pygame.transform.smoothscale(background, screen.get_size())
     costas_carta = pygame.image.load(os.path.join(pasta_cartas, 'costacartas.png'))
+    imagem_fundo = pygame.image.load('Imagens/fundoT.png')
+    imagem_fundo = pygame.transform.smoothscale(imagem_fundo, screen.get_size())
 
-    # Associa um ID a cada par (nome do arquivo, imagem)
     cartas_com_ids = list(enumerate(imagens_selecionadas))
-    
-    # Imprime o mapeamento de ID para nome da carta no terminal
+
     print("--- Mapeamento de Cartas da Partida ---")
     for id_carta, (nome_arquivo, _) in cartas_com_ids:
         print(f"ID {id_carta} -> {nome_arquivo}")
     print("------------------------------------")
 
-    # Extrai apenas as imagens para a lista de cartas do jogo
     imagens_para_jogo = [img for _, (_, img) in cartas_com_ids]
     cartas_para_duplicar = list(enumerate(imagens_para_jogo))
 
@@ -56,7 +51,6 @@ def exibir_jogo_pokemon(screen):
     espaco_x = (largura_tela - (colunas * largura_carta_fixa)) // (colunas + 1)
     espaco_y = (altura_tela - (linhas * altura_carta_fixa)) // (linhas + 1)
 
-    # --- Variáveis de estado do jogo ---
     cartas_viradas = []
     cartas_acertadas = []
     pares_jogador = 0
@@ -66,7 +60,7 @@ def exibir_jogo_pokemon(screen):
     start_time = time.time()
 
     def desenhar_tabuleiro():
-        screen.blit(background, (0, 0))
+        screen.blit(imagem_fundo, (0, 0))
         for i in range(linhas):
             for j in range(colunas):
                 index = i * colunas + j
@@ -82,8 +76,7 @@ def exibir_jogo_pokemon(screen):
         screen.blit(placar_jogador, (20, 20))
         screen.blit(placar_bot, (largura_tela - placar_bot.get_width() - 20, 20))
 
-
-    # Loop principal do jogo
+ 
     while True:
         if turno_jogador:
             for event in pygame.event.get():
@@ -98,10 +91,10 @@ def exibir_jogo_pokemon(screen):
                                 index = i * colunas + j
                                 cx = espaco_x + j * (largura_carta_fixa + espaco_x)
                                 cy = espaco_y + i * (altura_carta_fixa + espaco_y)
-                                if cx <= x <= cx + largura_carta_fixa and cy <= y <= cy + altura_carta_fixa:
+                                if cx <= x < cx + largura_carta_fixa and cy <= y < cy + altura_carta_fixa:
                                     if index not in cartas_viradas and index not in cartas_acertadas:
                                         cartas_viradas.append(index)
-        else: # Vez do bot
+        else: 
             pygame.time.wait(1000)
             posicoes_restantes = [i for i in range(len(cartas)) if i not in cartas_acertadas]
             jogada_bot = bot.escolher_jogada(posicoes_restantes)
@@ -111,7 +104,7 @@ def exibir_jogo_pokemon(screen):
         if len(cartas_viradas) == 2:
             desenhar_tabuleiro()
             pygame.display.flip()
-            
+
             id_carta1 = cartas[cartas_viradas[0]][0]
             pos_carta1 = cartas_viradas[0]
             id_carta2 = cartas[cartas_viradas[1]][0]
@@ -123,7 +116,7 @@ def exibir_jogo_pokemon(screen):
             print(f"Memória do Bot: {bot.memoria}")
 
             pygame.time.wait(1000)
-            
+
             if id_carta1 == id_carta2:
                 cartas_acertadas.extend(cartas_viradas)
                 if turno_jogador:
@@ -151,4 +144,4 @@ def exibir_jogo_pokemon(screen):
 if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    exibir_jogo_pokemon(screen)
+    exibir_jogo_zelda(screen, "Jogador Teste", "Imagens/personagem1.png")

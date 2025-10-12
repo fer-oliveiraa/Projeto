@@ -5,12 +5,12 @@ import time
 import os
 from bot_memoria import BotMemoria
 
-def exibir_jogo_pokemon(screen):
+def exibir_jogo_pokemon(screen, nome_jogador, avatar_path):
     pygame.display.set_caption("Jogo Pokémon")
 
     pasta_cartas = os.path.join(os.path.dirname(__file__), 'CartasPokemon')
 
-    # Altera a forma de carregar as imagens para manter o nome do arquivo
+    
     imagens_cartas_com_nomes = []
     for filename in os.listdir(pasta_cartas):
         if filename.endswith('.png') and 'costacartas' not in filename:
@@ -22,23 +22,23 @@ def exibir_jogo_pokemon(screen):
         pygame.quit()
         sys.exit()
 
-    # Seleciona 6 pares (nome do arquivo, imagem) aleatórios
+    
     imagens_selecionadas = random.sample(imagens_cartas_com_nomes, 6)
     
     background = pygame.image.load('Imagens/fundoT.png')
     background = pygame.transform.smoothscale(background, screen.get_size())
     costas_carta = pygame.image.load(os.path.join(pasta_cartas, 'costacartas.png'))
 
-    # Associa um ID a cada par (nome do arquivo, imagem)
+  
     cartas_com_ids = list(enumerate(imagens_selecionadas))
     
-    # Imprime o mapeamento de ID para nome da carta no terminal
+   
     print("--- Mapeamento de Cartas da Partida ---")
     for id_carta, (nome_arquivo, _) in cartas_com_ids:
         print(f"ID {id_carta} -> {nome_arquivo}")
     print("------------------------------------")
 
-    # Extrai apenas as imagens para a lista de cartas do jogo
+   
     imagens_para_jogo = [img for _, (_, img) in cartas_com_ids]
     cartas_para_duplicar = list(enumerate(imagens_para_jogo))
 
@@ -56,7 +56,7 @@ def exibir_jogo_pokemon(screen):
     espaco_x = (largura_tela - (colunas * largura_carta_fixa)) // (colunas + 1)
     espaco_y = (altura_tela - (linhas * altura_carta_fixa)) // (linhas + 1)
 
-    # --- Variáveis de estado do jogo ---
+ 
     cartas_viradas = []
     cartas_acertadas = []
     pares_jogador = 0
@@ -83,7 +83,7 @@ def exibir_jogo_pokemon(screen):
         screen.blit(placar_bot, (largura_tela - placar_bot.get_width() - 20, 20))
 
 
-    # Loop principal do jogo
+  
     while True:
         if turno_jogador:
             for event in pygame.event.get():
@@ -101,7 +101,7 @@ def exibir_jogo_pokemon(screen):
                                 if cx <= x <= cx + largura_carta_fixa and cy <= y <= cy + altura_carta_fixa:
                                     if index not in cartas_viradas and index not in cartas_acertadas:
                                         cartas_viradas.append(index)
-        else: # Vez do bot
+        else: 
             pygame.time.wait(1000)
             posicoes_restantes = [i for i in range(len(cartas)) if i not in cartas_acertadas]
             jogada_bot = bot.escolher_jogada(posicoes_restantes)
@@ -151,4 +151,4 @@ def exibir_jogo_pokemon(screen):
 if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    exibir_jogo_pokemon(screen)
+    exibir_jogo_pokemon(screen, "Jogador Teste", "Imagens/personagem1.png")

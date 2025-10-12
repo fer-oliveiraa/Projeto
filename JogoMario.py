@@ -1,18 +1,17 @@
-# JogoMario.py (Completo com mapeamento de IDs)
-
 import pygame
 import sys
 import random
 import time
 import os
 from bot_memoria import BotMemoria
+from final import exibir_final 
 
-def exibir_jogo_mario(screen):
+def exibir_jogo_mario(screen, nome_jogador, avatar_path):
     pygame.display.set_caption("Jogo da Memória Mario")
 
     pasta_cartas = os.path.join(os.path.dirname(__file__), 'CartasMario')
 
-    # NOVO: Altera a forma de carregar as imagens para manter o nome do arquivo
+    
     imagens_cartas_com_nomes = []
     for filename in os.listdir(pasta_cartas):
         if filename.endswith('.png') and 'costacartas' not in filename:
@@ -24,23 +23,19 @@ def exibir_jogo_mario(screen):
         pygame.quit()
         sys.exit()
 
-    # Seleciona 6 pares (nome do arquivo, imagem) aleatórios
     imagens_selecionadas = random.sample(imagens_cartas_com_nomes, 6)
     
     costas_carta = pygame.image.load('CartasMario/costacartas.png')
     imagem_fundo = pygame.image.load('Imagens/fundoT.png')
     imagem_fundo = pygame.transform.smoothscale(imagem_fundo, screen.get_size())
 
-    # Associa um ID a cada par (nome do arquivo, imagem)
     cartas_com_ids = list(enumerate(imagens_selecionadas))
     
-    # NOVO: Imprime o mapeamento de ID para nome da carta no terminal
     print("--- Mapeamento de Cartas da Partida ---")
     for id_carta, (nome_arquivo, _) in cartas_com_ids:
         print(f"ID {id_carta} -> {nome_arquivo}")
     print("------------------------------------")
 
-    # Extrai apenas as imagens para a lista de cartas do jogo
     imagens_para_jogo = [img for _, (_, img) in cartas_com_ids]
     cartas_para_duplicar = list(enumerate(imagens_para_jogo))
 
@@ -58,7 +53,6 @@ def exibir_jogo_mario(screen):
     espaco_x = (largura_tela - (colunas * largura_carta_fixa)) // (colunas + 1)
     espaco_y = (altura_tela - (linhas * altura_carta_fixa)) // (linhas + 1)
 
-    # --- Variáveis de estado do jogo ---
     cartas_viradas = []
     cartas_acertadas = []
     pares_jogador = 0
@@ -84,7 +78,6 @@ def exibir_jogo_mario(screen):
         screen.blit(placar_jogador, (20, 20))
         screen.blit(placar_bot, (largura_tela - placar_bot.get_width() - 20, 20))
 
-    # Loop principal do jogo
     while True:
         if turno_jogador:
             for event in pygame.event.get():
@@ -141,15 +134,23 @@ def exibir_jogo_mario(screen):
         pygame.display.flip()
 
         if len(cartas_acertadas) == len(cartas):
-            elapsed_time = time.time() - start_time
-            print(f"Fim do jogo! Tempo total: {elapsed_time:.2f} segundos")
+            print(f"Fim do jogo!")
             print(f"Jogador: {pares_jogador} pares")
             print(f"Bot: {pares_bot} pares")
-            pygame.time.wait(3000)
-            pygame.quit()
-            sys.exit()
+
+            if pares_jogador > pares_bot:
+                nome_vencedor = nome_jogador
+                avatar_vencedor_path = avatar_path
+            elif pares_bot > pares_jogador:
+                nome_vencedor = "Bot"
+                avatar_vencedor_path = 'Imagens/bot_avatar.png'
+            else:
+                nome_vencedor = "Empate!"
+                avatar_vencedor_path = None
+
+            exibir_final(screen, nome_vencedor, avatar_vencedor_path)
 
 if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-    exibir_jogo_mario(screen)
+    exibir_jogo_mario(screen, "Jogador Teste", "Imagens/personagem1.png")
