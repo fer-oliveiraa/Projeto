@@ -72,11 +72,6 @@ def exibir_jogo_mario(screen, nome_jogador, avatar_path):
                     screen.blit(cartas[index][1], (x, y))
                 else:
                     screen.blit(costas_carta, (x, y))
-        fonte_placar = pygame.font.Font('Fontes/arcade_gamer.ttf', 30)
-        placar_jogador = fonte_placar.render(f"Jogador: {pares_jogador}", True, (255,255,255))
-        placar_bot = fonte_placar.render(f"Bot: {pares_bot}", True, (255,255,255))
-        screen.blit(placar_jogador, (20, 20))
-        screen.blit(placar_bot, (largura_tela - placar_bot.get_width() - 20, 20))
 
     while True:
         if turno_jogador:
@@ -142,8 +137,8 @@ def exibir_jogo_mario(screen, nome_jogador, avatar_path):
                 nome_vencedor = nome_jogador
                 avatar_vencedor_path = avatar_path
             elif pares_bot > pares_jogador:
-                nome_vencedor = "Bot"
-                avatar_vencedor_path = 'Imagens/bot_avatar.png'
+                nome_vencedor = "O melhor bot"
+                avatar_vencedor_path = None 
             else:
                 nome_vencedor = "Empate!"
                 avatar_vencedor_path = None

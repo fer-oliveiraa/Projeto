@@ -4,11 +4,11 @@ import random
 import time
 import os
 from bot_memoria import BotMemoria
+from final import exibir_final
 
 def exibir_jogo_zelda(screen, nome_jogador, avatar_path):
     pygame.display.set_caption("Jogo da Memória de Zelda")
 
- 
     pasta_cartas = os.path.join(os.path.dirname(__file__), 'CartasZelda')
 
     imagens_cartas_com_nomes = []
@@ -70,12 +70,6 @@ def exibir_jogo_zelda(screen, nome_jogador, avatar_path):
                     screen.blit(cartas[index][1], (x, y))
                 else:
                     screen.blit(costas_carta, (x, y))
-        fonte_placar = pygame.font.Font('Fontes/arcade_gamer.ttf', 30)
-        placar_jogador = fonte_placar.render(f"Jogador: {pares_jogador}", True, (255,255,255))
-        placar_bot = fonte_placar.render(f"Bot: {pares_bot}", True, (255,255,255))
-        screen.blit(placar_jogador, (20, 20))
-        screen.blit(placar_bot, (largura_tela - placar_bot.get_width() - 20, 20))
-
  
     while True:
         if turno_jogador:
@@ -133,13 +127,21 @@ def exibir_jogo_zelda(screen, nome_jogador, avatar_path):
         pygame.display.flip()
 
         if len(cartas_acertadas) == len(cartas):
-            elapsed_time = time.time() - start_time
-            print(f"Você venceu! Tempo total: {elapsed_time:.2f} segundos")
+            print(f"Fim do jogo!")
             print(f"Jogador: {pares_jogador} pares")
             print(f"Bot: {pares_bot} pares")
-            pygame.time.wait(3000)
-            pygame.quit()
-            sys.exit()
+
+            if pares_jogador > pares_bot:
+                nome_vencedor = nome_jogador
+                avatar_vencedor_path = avatar_path
+            elif pares_bot > pares_jogador:
+                nome_vencedor = "O melhor bot"
+                avatar_vencedor_path = None
+            else:
+                nome_vencedor = "Empate!"
+                avatar_vencedor_path = None
+
+            exibir_final(screen, nome_vencedor, avatar_vencedor_path)
 
 if __name__ == '__main__':
     pygame.init()
