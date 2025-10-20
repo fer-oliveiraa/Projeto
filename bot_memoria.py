@@ -1,5 +1,3 @@
-# bot_memoria.py (Atualizado)
-
 import random
 
 class BotMemoria:
@@ -30,14 +28,14 @@ class BotMemoria:
     def escolher_jogada(self, posicoes_restantes):
         """Decide a jogada do bot baseado na memória."""
 
-        # 1. Verifica se existe um par conhecido na memória
+        # Verifica se existe um par conhecido na memória
         for carta, posicoes in self.memoria.items():
             if len(posicoes) == 2:
                 # Garante que as posições conhecidas ainda estão em jogo
                 if all(p in posicoes_restantes for p in posicoes):
                     return posicoes
 
-        # 2. Verifica se há uma carta única na memória
+        # Verifica se há uma carta única na memória
         for carta, posicoes in self.memoria.items():
             if len(posicoes) == 1:
                 pos = posicoes[0]
@@ -48,7 +46,7 @@ class BotMemoria:
                         outra = random.choice(outras_posicoes)
                         return [pos, outra]
 
-        # 3. Se não sabe nada → joga duas aleatórias
+        # Se não sabe nada → joga duas aleatórias
         if len(posicoes_restantes) >= 2:
             return random.sample(posicoes_restantes, 2)
         else:
